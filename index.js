@@ -1,19 +1,20 @@
 /**
  * @format
  */
-
 import {Navigation} from 'react-native-navigation';
-import HomeScreen from './src/screens/HomeScreen/HomeScreen';
-import FavoritesScreen from './src/screens/FavoritesScreen/FavoritesScreen';
+import {Icons} from 'constants/icons';
+import FavoritesScreen from 'screens/FavoritesScreen/FavoritesScreen';
+import HomeScreen from 'screens/HomeScreen/HomeScreen';
 
 FavoritesScreen.options = {
   topBar: {
     title: {
-      text: 'Избранное',
+      text: '1',
     },
   },
   bottomTab: {
     text: 'Избранное',
+    icon: Icons.favoritesTab,
   },
 };
 HomeScreen.options = {
@@ -24,6 +25,7 @@ HomeScreen.options = {
   },
   bottomTab: {
     text: 'Фильмы',
+    icon: Icons.movieTab,
   },
 };
 
