@@ -3,17 +3,58 @@
  */
 
 import {Navigation} from 'react-native-navigation';
-import App from './App';
+import HomeScreen from './src/screens/HomeScreen/HomeScreen';
+import FavoritesScreen from './src/screens/FavoritesScreen/FavoritesScreen';
 
-Navigation.registerComponent('com.myApp.WelcomeScreen', () => App);
+FavoritesScreen.options = {
+  topBar: {
+    title: {
+      text: 'Избранное',
+    },
+  },
+  bottomTab: {
+    text: 'Избранное',
+  },
+};
+HomeScreen.options = {
+  topBar: {
+    title: {
+      text: 'Фильмы',
+    },
+  },
+  bottomTab: {
+    text: 'Фильмы',
+  },
+};
+
+Navigation.registerComponent('Home', () => HomeScreen);
+Navigation.registerComponent('Favorites', () => FavoritesScreen);
+
 Navigation.events().registerAppLaunchedListener(() => {
   Navigation.setRoot({
     root: {
-      stack: {
+      bottomTabs: {
         children: [
           {
-            component: {
-              name: 'com.myApp.WelcomeScreen',
+            stack: {
+              children: [
+                {
+                  component: {
+                    name: 'Home',
+                  },
+                },
+              ],
+            },
+          },
+          {
+            stack: {
+              children: [
+                {
+                  component: {
+                    name: 'Favorites',
+                  },
+                },
+              ],
             },
           },
         ],
