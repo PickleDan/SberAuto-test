@@ -4,6 +4,7 @@
 import {Icons} from '@constants/icons';
 import FavoritesScreen from '@screens/FavoritesScreen/FavoritesScreen';
 import HomeScreen from '@screens/HomeScreen/HomeScreen';
+import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
 import {Navigation} from 'react-native-navigation';
 
 FavoritesScreen.options = {
@@ -32,8 +33,10 @@ HomeScreen.options = {
   },
 };
 
-Navigation.registerComponent('Home', () => HomeScreen);
-Navigation.registerComponent('Favorites', () => FavoritesScreen);
+Navigation.registerComponent('Home', () => gestureHandlerRootHOC(HomeScreen));
+Navigation.registerComponent('Favorites', () =>
+  gestureHandlerRootHOC(FavoritesScreen),
+);
 
 Navigation.events().registerAppLaunchedListener(() => {
   Navigation.setRoot({

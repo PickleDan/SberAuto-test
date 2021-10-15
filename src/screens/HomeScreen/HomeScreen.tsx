@@ -1,29 +1,42 @@
+import Modal from '@components/Modal';
 import MovieCard from '@components/MovieCard';
-import ScreenWrapper from '@layouts/ScreenWrapper';
 import {NavigationProps} from '@screens/FavoritesScreen/FavoritesScreen';
-import {SMALL} from '@styles/spacing';
+import {MEDIUM, SMALL} from '@styles/spacing';
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {FlatList, StyleSheet} from 'react-native';
 import {NavigationFunctionComponent} from 'react-native-navigation';
+import BottomSheet from 'reanimated-bottom-sheet';
 
 type HomeScreenProps = {};
 
 const HomeScreen: NavigationFunctionComponent<NavigationProps> =
   ({}: HomeScreenProps) => {
+    const bottomSheetRef = React.createRef<BottomSheet>();
+
+    const onCardPress = () => {
+      bottomSheetRef.current?.snapTo(0);
+    };
+
     return (
-      <ScreenWrapper>
-        <View style={styles.container}>
-          {[1, 2, 3, 23, 1, 3, 13, 311, 3].map(() => {
-            return <MovieCard />;
-          })}
-        </View>
-      </ScreenWrapper>
+      <>
+        <FlatList
+          data={[1, 2, 3, 23, 4, 5, 13, 311, 9]}
+          renderItem={({item}) => (
+            <MovieCard onCardPress={onCardPress} key={item} />
+          )}
+          keyExtractor={item => item.toString()}
+          contentContainerStyle={styles.contentContainerStyle}
+        />
+
+        <Modal bottomSheetRef={bottomSheetRef} />
+      </>
     );
   };
 
 const styles = StyleSheet.create({
-  container: {
-    marginVertical: SMALL,
+  contentContainerStyle: {
+    marginHorizontal: MEDIUM,
+    paddingVertical: SMALL,
   },
 });
 

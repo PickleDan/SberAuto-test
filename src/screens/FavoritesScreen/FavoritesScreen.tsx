@@ -12,7 +12,7 @@ const FavoritesScreen: NavigationFunctionComponent<NavigationProps> =
   ({}: FavoritesScreenProps) => {
     return (
       <View>
-        <Text>FavoritesScreen</Text>
+        <Text>Favorites</Text>
       </View>
     );
   };
