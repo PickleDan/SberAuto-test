@@ -1,10 +1,10 @@
 /**
  * @format
  */
+import {Icons} from '@constants/icons';
+import FavoritesScreen from '@screens/FavoritesScreen/FavoritesScreen';
+import HomeScreen from '@screens/HomeScreen/HomeScreen';
 import {Navigation} from 'react-native-navigation';
-import {Icons} from 'src/constants/icons';
-import FavoritesScreen from 'src/screens/FavoritesScreen/FavoritesScreen';
-import HomeScreen from 'src/screens/HomeScreen/HomeScreen';
 
 FavoritesScreen.options = {
   topBar: {
@@ -14,9 +14,11 @@ FavoritesScreen.options = {
   },
   bottomTab: {
     text: 'Избранное',
-    icon: Icons.favoritesTab,
+    icon: Icons.favoritesTabOff,
+    selectedIcon: Icons.favoritesTabOn,
   },
 };
+
 HomeScreen.options = {
   topBar: {
     title: {
@@ -25,7 +27,8 @@ HomeScreen.options = {
   },
   bottomTab: {
     text: 'Фильмы',
-    icon: Icons.movieTab,
+    icon: Icons.movieTabOff,
+    selectedIcon: Icons.movieTabOn,
   },
 };
 
@@ -39,9 +42,11 @@ Navigation.events().registerAppLaunchedListener(() => {
         children: [
           {
             stack: {
+              id: 'HOME_TAB',
               children: [
                 {
                   component: {
+                    id: 'HOME_SCREEN',
                     name: 'Home',
                   },
                 },
@@ -50,9 +55,11 @@ Navigation.events().registerAppLaunchedListener(() => {
           },
           {
             stack: {
+              id: 'FAVORITES_TAB',
               children: [
                 {
                   component: {
+                    id: 'FAVORITES_SCREEN',
                     name: 'Favorites',
                   },
                 },

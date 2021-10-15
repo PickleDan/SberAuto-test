@@ -1,0 +1,31 @@
+{
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        "root": ["."],
+        "alias": {
+          "@components": "./src/components",
+          "@screens": "./src/screens",
+          "@assets": "./src/assets",
+          "@selectors": "./src/store/selectors",
+          "@reducers": "./src/store/reducers",
+          "@actions": "./src/store/actions",
+          "@store": "./src/store",
+          "@helpers": "./src/helpers",
+          "@constants": "./src/constants",
+          "@layouts": "./src/layouts",
+          "@styles": "./src/styles",
+          "@apptypes": "./src/types",
+          "@utils": "./src/utils",
+          "@api": "./src/api",
+          "@app": "./src/App",
+          "@json": "./src/json",
+          "@database": "./src/database",
+          "@routes": "./src/routes",
+          "@configs": "./src/configs"
+        }
+      }
+    ]
+  ]
+}
