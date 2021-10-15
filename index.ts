@@ -9,7 +9,7 @@ import {Navigation} from 'react-native-navigation';
 FavoritesScreen.options = {
   topBar: {
     title: {
-      text: '1',
+      text: 'Избранное',
     },
   },
   bottomTab: {
