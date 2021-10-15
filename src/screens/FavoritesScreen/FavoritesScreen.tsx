@@ -1,5 +1,6 @@
+import ScreenWrapper from '@layouts/ScreenWrapper';
 import React from 'react';
-import {Text, View} from 'react-native';
+import {Text} from 'react-native';
 import {NavigationFunctionComponent} from 'react-native-navigation';
 
 type FavoritesScreenProps = {};
@@ -11,9 +12,9 @@ export interface NavigationProps {
 const FavoritesScreen: NavigationFunctionComponent<NavigationProps> =
   ({}: FavoritesScreenProps) => {
     return (
-      <View>
+      <ScreenWrapper>
         <Text>Favorites</Text>
-      </View>
+      </ScreenWrapper>
     );
   };
 

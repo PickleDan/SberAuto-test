@@ -7,7 +7,7 @@ type ScreenWrapperProps = {
 };
 
 const ScreenWrapper = ({children}: ScreenWrapperProps) => {
-  return <View style={styles.wrapper}>{children}</View>;
+  return <View>{children}</View>;
 };
 
 const styles = StyleSheet.create({

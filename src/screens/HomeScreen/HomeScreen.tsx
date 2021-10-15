@@ -1,5 +1,6 @@
 import Modal from '@components/Modal';
 import MovieCard from '@components/MovieCard';
+import ScreenWrapper from '@layouts/ScreenWrapper';
 import {NavigationProps} from '@screens/FavoritesScreen/FavoritesScreen';
 import {MEDIUM, SMALL} from '@styles/spacing';
 import React from 'react';
@@ -18,18 +19,19 @@ const HomeScreen: NavigationFunctionComponent<NavigationProps> =
     };
 
     return (
-      <>
-        <FlatList
-          data={[1, 2, 3, 23, 4, 5, 13, 311, 9]}
-          renderItem={({item}) => (
-            <MovieCard onCardPress={onCardPress} key={item} />
-          )}
-          keyExtractor={item => item.toString()}
-          contentContainerStyle={styles.contentContainerStyle}
-        />
-
-        <Modal bottomSheetRef={bottomSheetRef} />
-      </>
+      <ScreenWrapper>
+        <>
+          <FlatList
+            data={[1, 2, 3, 23, 4, 5, 13, 311, 9]}
+            renderItem={({item}) => (
+              <MovieCard onCardPress={onCardPress} key={item} />
+            )}
+            keyExtractor={item => item.toString()}
+            contentContainerStyle={styles.contentContainerStyle}
+          />
+          <Modal bottomSheetRef={bottomSheetRef} />
+        </>
+      </ScreenWrapper>
     );
   };
 

@@ -8,6 +8,9 @@ import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
 import {Navigation} from 'react-native-navigation';
 
 FavoritesScreen.options = {
+  statusBar: {
+    backgroundColor: 'white',
+  },
   topBar: {
     title: {
       text: 'Избранное',
@@ -21,6 +24,9 @@ FavoritesScreen.options = {
 };
 
 HomeScreen.options = {
+  statusBar: {
+    backgroundColor: 'white',
+  },
   topBar: {
     title: {
       text: 'Фильмы',
