@@ -2,9 +2,9 @@
  * @format
  */
 import {Navigation} from 'react-native-navigation';
-import {Icons} from 'constants/icons';
-import FavoritesScreen from 'screens/FavoritesScreen/FavoritesScreen';
-import HomeScreen from 'screens/HomeScreen/HomeScreen';
+import {Icons} from 'src/constants/icons';
+import FavoritesScreen from 'src/screens/FavoritesScreen/FavoritesScreen';
+import HomeScreen from 'src/screens/HomeScreen/HomeScreen';
 
 FavoritesScreen.options = {
   topBar: {
