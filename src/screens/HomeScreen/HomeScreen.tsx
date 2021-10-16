@@ -1,10 +1,11 @@
+import {useFetchMoviesQuery} from '@api/getMovies';
 import Modal from '@components/Modal';
 import MovieCard from '@components/MovieCard';
 import ScreenWrapper from '@layouts/ScreenWrapper';
 import {NavigationProps} from '@screens/FavoritesScreen/FavoritesScreen';
 import {MEDIUM, SMALL} from '@styles/spacing';
 import React from 'react';
-import {FlatList, StyleSheet} from 'react-native';
+import {FlatList, StyleSheet, Text, View} from 'react-native';
 import {NavigationFunctionComponent} from 'react-native-navigation';
 import BottomSheet from 'reanimated-bottom-sheet';
 
@@ -18,17 +19,37 @@ const HomeScreen: NavigationFunctionComponent<NavigationProps> =
       bottomSheetRef.current?.snapTo(0);
     };
 
+    const {data = [], isFetching} = useFetchMoviesQuery();
+
+    console.log('data', data);
+
     return (
       <ScreenWrapper>
         <>
           <FlatList
-            data={[1, 2, 3, 23, 4, 5, 13, 311, 9]}
+            data={data}
             renderItem={({item}) => (
-              <MovieCard onCardPress={onCardPress} key={item} />
+              <MovieCard
+                key={item.id}
+                onCardPress={onCardPress}
+                title={item.title}
+                banner={item.movie_banner}
+                description={item.description}
+                release_date={item.release_date}
+                score={item.score}
+              />
             )}
-            keyExtractor={item => item.toString()}
+            keyExtractor={item => item.id}
             contentContainerStyle={styles.contentContainerStyle}
           />
+          <View>
+            <Text>Number: {data.length}</Text>
+          </View>
+          {isFetching && (
+            <View>
+              <Text>Loading...</Text>
+            </View>
+          )}
           <Modal bottomSheetRef={bottomSheetRef} />
         </>
       </ScreenWrapper>

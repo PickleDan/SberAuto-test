@@ -4,8 +4,11 @@
 import {Icons} from '@constants/icons';
 import FavoritesScreen from '@screens/FavoritesScreen/FavoritesScreen';
 import HomeScreen from '@screens/HomeScreen/HomeScreen';
+import React from 'react';
 import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
 import {Navigation} from 'react-native-navigation';
+import {Provider} from 'react-redux';
+import {store} from './src/store';
 
 FavoritesScreen.options = {
   statusBar: {
@@ -39,9 +42,26 @@ HomeScreen.options = {
   },
 };
 
-Navigation.registerComponent('Home', () => gestureHandlerRootHOC(HomeScreen));
-Navigation.registerComponent('Favorites', () =>
-  gestureHandlerRootHOC(FavoritesScreen),
+Navigation.registerComponent(
+  'Home',
+  () =>
+    gestureHandlerRootHOC(props => (
+      <Provider store={store}>
+        <HomeScreen {...props} />
+      </Provider>
+    )),
+  () => HomeScreen,
+);
+
+Navigation.registerComponent(
+  'Favorites',
+  () =>
+    gestureHandlerRootHOC(props => (
+      <Provider store={store}>
+        <FavoritesScreen {...props} />
+      </Provider>
+    )),
+  () => FavoritesScreen,
 );
 
 Navigation.events().registerAppLaunchedListener(() => {

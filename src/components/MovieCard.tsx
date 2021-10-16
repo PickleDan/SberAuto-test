@@ -1,30 +1,45 @@
 import Button from '@components/UI/Button';
 import {PRIMARY, PRIMARY_PALE, WHITE} from '@styles/colors';
-import {MEDIUM, TINY} from '@styles/spacing';
+import {LARGE, MEDIUM, TINY} from '@styles/spacing';
 import {WIDTH} from '@utils/deviceSizes';
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 type MovieCardProps = {
   onCardPress: () => void;
+  title: string;
+  banner: string;
+  description: string;
+  release_date: number;
+  score: number;
 };
 
-const MovieCard = ({onCardPress}: MovieCardProps) => {
+const MovieCard = ({
+  onCardPress,
+  title,
+  banner,
+  description,
+  release_date,
+  score,
+}: MovieCardProps) => {
   return (
     <TouchableOpacity
       onPress={onCardPress}
       activeOpacity={0.5}
       style={styles.card}>
       <View>
-        <Text>Movie name</Text>
-        <Text>Year</Text>
-        <Text>Esteem</Text>
-        <Text>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias
-          assumenda, cum exercitationem explicabo fugit magnam omnis ullam. Fuga
-          ipsam nesciunt quod reiciendis rem. Dolorem eos eum fugit
-          necessitatibus ratione sit.
-        </Text>
+        <Text>{title}</Text>
+        <Text>{release_date}</Text>
+        <Text>{score}</Text>
+
+        <Image
+          style={styles.image}
+          source={{
+            uri: banner,
+          }}
+        />
+
+        <Text>{description}</Text>
       </View>
 
       <Button
@@ -53,6 +68,11 @@ const styles = StyleSheet.create({
     maxWidth: 200,
     flexDirection: 'row',
     justifyContent: 'center',
+  },
+  image: {
+    height: 200,
+    width: WIDTH - LARGE * 2,
+    borderRadius: TINY,
   },
 });
 
