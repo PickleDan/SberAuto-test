@@ -11,13 +11,22 @@ import {
 
 type ButtonProps = {
   text: string;
+  onPress: () => void;
   styleWrapper?: ViewStyle;
   styleText?: TextStyle;
 };
 
-const Button = ({text = 'Button', styleWrapper, styleText}: ButtonProps) => {
+const Button = ({
+  text = 'Button',
+  onPress,
+  styleWrapper,
+  styleText,
+}: ButtonProps) => {
   return (
-    <TouchableOpacity style={[styles.buttonWrapper, styleWrapper]}>
+    <TouchableOpacity
+      onPress={onPress}
+      style={[styles.buttonWrapper, styleWrapper]}
+      activeOpacity={0.3}>
       <Text style={styleText}>{text}</Text>
     </TouchableOpacity>
   );

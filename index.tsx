@@ -8,7 +8,7 @@ import React from 'react';
 import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
 import {Navigation} from 'react-native-navigation';
 import {Provider} from 'react-redux';
-import {store} from './src/store';
+import {store} from './src/store/store';
 
 FavoritesScreen.options = {
   statusBar: {

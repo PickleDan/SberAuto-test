@@ -4,10 +4,14 @@ import {StyleSheet, View} from 'react-native';
 
 type ScreenWrapperProps = {
   children: ReactChild | ReactChildren;
+  horizontalInsets?: boolean;
 };
 
-const ScreenWrapper = ({children}: ScreenWrapperProps) => {
-  return <View>{children}</View>;
+const ScreenWrapper = ({
+  children,
+  horizontalInsets = false,
+}: ScreenWrapperProps) => {
+  return <View style={horizontalInsets && styles.wrapper}>{children}</View>;
 };
 
 const styles = StyleSheet.create({

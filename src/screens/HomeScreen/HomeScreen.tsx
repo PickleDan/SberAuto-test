@@ -2,9 +2,11 @@ import {Movie, useFetchMoviesQuery} from '@api/getMovies';
 import Modal from '@components/Modal';
 import MovieCard from '@components/MovieCard';
 import ErrorMessage from '@components/UI/ErrorMessage';
+import {useAppDispatch, useAppSelector} from '@hooks/storeHooks';
 import {useRefreshControl} from '@hooks/useRefreshControl';
 import ScreenWrapper from '@layouts/ScreenWrapper';
 import {NavigationProps} from '@screens/FavoritesScreen/FavoritesScreen';
+import {addedToFavorites, removedFromFavorites} from '@store/favoritesSlice';
 import {PRIMARY} from '@styles/colors';
 import {GIANT, MEDIUM, SMALL} from '@styles/spacing';
 import React, {useCallback, useState} from 'react';
@@ -16,6 +18,7 @@ import {
   View,
 } from 'react-native';
 import {NavigationFunctionComponent} from 'react-native-navigation';
+import {shallowEqual} from 'react-redux';
 import BottomSheet from 'reanimated-bottom-sheet';
 
 type HomeScreenProps = {};
@@ -23,6 +26,8 @@ type HomeScreenProps = {};
 const HomeScreen: NavigationFunctionComponent<NavigationProps> =
   ({}: HomeScreenProps) => {
     const bottomSheetRef = React.createRef<BottomSheet>();
+    const dispatch = useAppDispatch();
+    const favorites = useAppSelector(state => state.favorites, shallowEqual);
 
     const REQUEST_STEP = 10;
 
@@ -44,6 +49,23 @@ const HomeScreen: NavigationFunctionComponent<NavigationProps> =
         setCurrentMovie(movie);
       },
       [bottomSheetRef, data],
+    );
+
+    const onFavoritePress = useCallback(
+      (id: string) => {
+        if (favorites.movieIds.some(movieId => movieId === id)) {
+          dispatch(removedFromFavorites(id));
+        } else {
+          dispatch(addedToFavorites(id));
+        }
+      },
+      [dispatch, favorites],
+    );
+
+    const checkIsMovieFavorite = useCallback(
+      (id: string): boolean =>
+        favorites.movieIds.some(movieId => movieId === id),
+      [favorites.movieIds],
     );
 
     return (
@@ -72,6 +94,8 @@ const HomeScreen: NavigationFunctionComponent<NavigationProps> =
                 banner={item.movie_banner}
                 release_date={item.release_date}
                 score={item.rt_score}
+                onFavoritePress={onFavoritePress}
+                checkIsMovieFavorite={checkIsMovieFavorite}
               />
             )}
             keyExtractor={item => item.id}

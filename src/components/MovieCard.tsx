@@ -1,4 +1,5 @@
 import Button from '@components/UI/Button';
+import {Icons} from '@constants/icons';
 import {PRIMARY, PRIMARY_PALE, WHITE} from '@styles/colors';
 import {LARGE, MEDIUM, TINY} from '@styles/spacing';
 import {typography} from '@styles/typography';
@@ -13,6 +14,8 @@ type MovieCardProps = {
   banner: string;
   release_date: number;
   score: number;
+  onFavoritePress: (id: string) => void;
+  checkIsMovieFavorite: (id: string) => boolean;
 };
 
 const MovieCard = ({
@@ -22,7 +25,14 @@ const MovieCard = ({
   banner,
   release_date,
   score,
+  onFavoritePress,
+  checkIsMovieFavorite,
 }: MovieCardProps) => {
+  const isFavorite = checkIsMovieFavorite(id);
+  const buttonText = isFavorite
+    ? 'Убрать из избранного'
+    : 'Добавить в избранное';
+
   return (
     <TouchableOpacity
       onPress={() => onCardPress(id)}
@@ -42,15 +52,17 @@ const MovieCard = ({
             uri: banner,
           }}
         />
-
-        {/*<Text>{description}</Text>*/}
       </View>
 
-      <Button
-        text={'Добавить в избранное'}
-        styleWrapper={styles.button}
-        styleText={{color: WHITE}}
-      />
+      <View style={styles.buttonWrapper}>
+        <Button
+          text={buttonText}
+          onPress={() => onFavoritePress(id)}
+          styleWrapper={styles.button}
+          styleText={{color: WHITE}}
+        />
+        {isFavorite && <Image source={Icons.star} style={styles.star} />}
+      </View>
     </TouchableOpacity>
   );
 };
@@ -63,13 +75,16 @@ const styles = StyleSheet.create({
     borderRadius: TINY,
     marginVertical: TINY,
     backgroundColor: PRIMARY_PALE,
-    paddingVertical: MEDIUM,
+    paddingTop: MEDIUM,
     paddingHorizontal: MEDIUM,
   },
-
+  buttonWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: MEDIUM,
+  },
   button: {
-    marginTop: MEDIUM,
-    maxWidth: 200,
+    width: 200,
     flexDirection: 'row',
     justifyContent: 'center',
   },
@@ -88,6 +103,11 @@ const styles = StyleSheet.create({
     width: WIDTH - LARGE * 2,
     borderRadius: TINY,
     marginTop: MEDIUM - 2,
+  },
+  star: {
+    width: 30,
+    height: 30,
+    marginLeft: MEDIUM,
   },
 });
 

@@ -12,7 +12,7 @@ export interface NavigationProps {
 const FavoritesScreen: NavigationFunctionComponent<NavigationProps> =
   ({}: FavoritesScreenProps) => {
     return (
-      <ScreenWrapper>
+      <ScreenWrapper horizontalInsets>
         <Text>Favorites</Text>
       </ScreenWrapper>
     );
