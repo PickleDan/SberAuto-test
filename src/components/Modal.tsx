@@ -1,21 +1,27 @@
+import {useFetchMovieByIdQuery} from '@api/getMovies';
 import ExpanderButton from '@components/UI/ExpanderButton';
+import Loader from '@components/UI/Loader';
 import {MEDIUM} from '@styles/spacing';
 import {typography} from '@styles/typography';
 import {HEIGHT, WIDTH} from '@utils/deviceSizes';
-import React, {RefObject, useState} from 'react';
+import React, {useState} from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 import BottomSheet from 'reanimated-bottom-sheet';
 
 type ModalProps = {
-  bottomSheetRef: RefObject<BottomSheet>;
-  description?: string;
-  image?: string;
+  bottomSheetRef: React.MutableRefObject<BottomSheet | null>;
+  movieId?: string;
 };
 
 const LINE_HEIGHT = 20;
 const PREVIEW_HEIGHT = LINE_HEIGHT * 3 + MEDIUM;
+const SNAP_POINTS = ['80%', '52%', '0%'];
 
-const Modal = ({bottomSheetRef, description, image}: ModalProps) => {
+const Modal = ({bottomSheetRef, movieId}: ModalProps) => {
+  const {data, isFetching} = useFetchMovieByIdQuery(movieId);
+  const image = data?.image;
+  const description = data?.description;
+
   const [descriptionHeight, setDescriptionHeight] = useState<number>(0);
   const [isFullDescriptionOpen, setIsFullDescriptionOpen] =
     useState<boolean>(false);
@@ -25,37 +31,41 @@ const Modal = ({bottomSheetRef, description, image}: ModalProps) => {
   const renderContent = () => {
     return (
       <View style={styles.container}>
-        <View style={styles.imageWrapper}>
-          <Image style={styles.image} source={{uri: image}} />
-        </View>
-
-        <Text
-          style={[styles.description, styles.hiddenText]}
-          onLayout={e => {
-            setDescriptionHeight(Math.ceil(e.nativeEvent.layout.height));
-          }}>
-          {description}
-        </Text>
-
-        <>
-          <Text
-            style={[
-              styles.description,
-              isFullDescriptionOpen
-                ? styles.descriptionOn
-                : styles.descriptionOff,
-            ]}>
-            {description}
-          </Text>
-          {isExpanderNeeded && (
-            <ExpanderButton
-              onPress={() => {
-                setIsFullDescriptionOpen(!isFullDescriptionOpen);
-              }}
-              isOpened={isFullDescriptionOpen}
-            />
-          )}
-        </>
+        {isFetching ? (
+          <Loader size={40} stylesProp={styles.loader} />
+        ) : (
+          <View>
+            <View style={styles.imageWrapper}>
+              <Image style={styles.image} source={{uri: image}} />
+            </View>
+            <Text
+              style={[styles.description, styles.hiddenText]}
+              onLayout={e => {
+                setDescriptionHeight(Math.ceil(e.nativeEvent.layout.height));
+              }}>
+              {description}
+            </Text>
+            <>
+              <Text
+                style={[
+                  styles.description,
+                  isFullDescriptionOpen
+                    ? styles.descriptionOn
+                    : styles.descriptionOff,
+                ]}>
+                {description}
+              </Text>
+              {isExpanderNeeded && (
+                <ExpanderButton
+                  onPress={() => {
+                    setIsFullDescriptionOpen(!isFullDescriptionOpen);
+                  }}
+                  isOpened={isFullDescriptionOpen}
+                />
+              )}
+            </>
+          </View>
+        )}
       </View>
     );
   };
@@ -64,7 +74,7 @@ const Modal = ({bottomSheetRef, description, image}: ModalProps) => {
     <>
       <BottomSheet
         ref={bottomSheetRef}
-        snapPoints={['80%', '52%', '0%']}
+        snapPoints={SNAP_POINTS}
         borderRadius={10}
         renderContent={renderContent}
         initialSnap={2}
@@ -104,6 +114,10 @@ const styles = StyleSheet.create({
     height: PREVIEW_HEIGHT,
   },
   descriptionOn: {height: 'auto'},
+  loader: {
+    height: SNAP_POINTS[0],
+    justifyContent: 'center',
+  },
 });
 
 export default React.memo(Modal);

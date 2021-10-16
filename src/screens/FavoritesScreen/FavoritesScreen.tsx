@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
     ...typography.normalText,
     textAlign: 'center',
     maxWidth: 260,
+    marginTop: MEDIUM,
   },
 });
 

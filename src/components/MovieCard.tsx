@@ -1,7 +1,5 @@
-import Button from '@components/UI/Button';
+import FavoriteButton from '@components/FavoriteButton';
 import Card from '@components/UI/Card';
-import {Icons} from '@constants/icons';
-import {WHITE} from '@styles/colors';
 import {LARGE, MEDIUM, TINY} from '@styles/spacing';
 import {typography} from '@styles/typography';
 import {WIDTH} from '@utils/deviceSizes';
@@ -10,30 +8,24 @@ import {Image, StyleSheet, Text, View} from 'react-native';
 
 type MovieCardProps = {
   id: string;
-  onCardPress: (id: string) => void;
+
   title: string;
   banner: string;
   release_date: number;
   score: number;
-  onFavoritePress: (id: string) => void;
-  checkIsMovieFavorite: (id: string) => boolean;
+  onCardPress: (id: string) => void;
+  // onFavoritePress: (id: string) => void;
+  // checkIsMovieFavorite: (id: string) => boolean;
 };
 
 const MovieCard = ({
   id,
-  onCardPress,
   title,
   banner,
   release_date,
   score,
-  onFavoritePress,
-  checkIsMovieFavorite,
+  onCardPress,
 }: MovieCardProps) => {
-  const isFavorite = checkIsMovieFavorite(id);
-  const buttonText = isFavorite
-    ? 'Убрать из избранного'
-    : 'Добавить в избранное';
-
   return (
     <Card isTouchable onPress={() => onCardPress(id)}>
       <View style={styles.contentWrapper}>
@@ -52,15 +44,7 @@ const MovieCard = ({
             }}
           />
         </View>
-        <View style={styles.buttonWrapper}>
-          <Button
-            text={buttonText}
-            onPress={() => onFavoritePress(id)}
-            styleWrapper={styles.button}
-            styleText={{color: WHITE}}
-          />
-          {isFavorite && <Image source={Icons.star} style={styles.star} />}
-        </View>
+        <FavoriteButton movieId={id} />
       </View>
     </Card>
   );
@@ -70,16 +54,6 @@ const styles = StyleSheet.create({
   contentWrapper: {
     paddingTop: MEDIUM,
     paddingHorizontal: MEDIUM,
-  },
-  buttonWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginVertical: MEDIUM,
-  },
-  button: {
-    width: 200,
-    flexDirection: 'row',
-    justifyContent: 'center',
   },
   title: {
     ...typography.mediumTitle,
@@ -96,11 +70,6 @@ const styles = StyleSheet.create({
     width: WIDTH - LARGE * 2,
     borderRadius: TINY,
     marginTop: MEDIUM - 2,
-  },
-  star: {
-    width: 30,
-    height: 30,
-    marginLeft: MEDIUM,
   },
 });
 
