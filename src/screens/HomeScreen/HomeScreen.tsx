@@ -4,7 +4,7 @@ import MovieCard from '@components/MovieCard';
 import ScreenWrapper from '@layouts/ScreenWrapper';
 import {NavigationProps} from '@screens/FavoritesScreen/FavoritesScreen';
 import {MEDIUM, SMALL} from '@styles/spacing';
-import React from 'react';
+import React, {useState} from 'react';
 import {FlatList, StyleSheet, Text, View} from 'react-native';
 import {NavigationFunctionComponent} from 'react-native-navigation';
 import BottomSheet from 'reanimated-bottom-sheet';
@@ -19,7 +19,9 @@ const HomeScreen: NavigationFunctionComponent<NavigationProps> =
       bottomSheetRef.current?.snapTo(0);
     };
 
-    const {data = [], isFetching} = useFetchMoviesQuery();
+    const LIMIT_STEP = 10;
+    const [limit, setLimit] = useState(10);
+    const {data = [], isFetching} = useFetchMoviesQuery(limit);
 
     console.log('data', data);
 
@@ -41,6 +43,8 @@ const HomeScreen: NavigationFunctionComponent<NavigationProps> =
             )}
             keyExtractor={item => item.id}
             contentContainerStyle={styles.contentContainerStyle}
+            onEndReachedThreshold={1}
+            onEndReached={() => setLimit(limit + LIMIT_STEP)}
           />
           <View>
             <Text>Number: {data.length}</Text>
