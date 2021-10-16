@@ -3,12 +3,15 @@ import Modal from '@components/Modal';
 import MovieCard from '@components/MovieCard';
 import ErrorMessage from '@components/UI/ErrorMessage';
 import Loader from '@components/UI/Loader';
+import {useAppDispatch} from '@hooks/storeHooks';
 import {useRefreshControl} from '@hooks/useRefreshControl';
 import ScreenWrapper from '@layouts/ScreenWrapper';
 import {NavigationProps} from '@screens/FavoritesScreen/FavoritesScreen';
+import {getFavoriteMovies} from '@store/asyncStorage';
+import {favoritesInitialized} from '@store/favoritesSlice';
 import {PRIMARY} from '@styles/colors';
 import {GIANT, MEDIUM, SMALL} from '@styles/spacing';
-import React, {useCallback, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {FlatList, RefreshControl, StyleSheet} from 'react-native';
 import {NavigationFunctionComponent} from 'react-native-navigation';
 import BottomSheet from 'reanimated-bottom-sheet';
@@ -20,6 +23,7 @@ type HomeScreenProps = {};
 const HomeScreen: NavigationFunctionComponent<NavigationProps> =
   ({}: HomeScreenProps) => {
     const bottomSheetRef = useRef<BottomSheet>(null);
+    const dispatch = useAppDispatch();
 
     const [limit, setLimit] = useState<number>(REQUEST_STEP);
     const [currentMovieId, setCurrentMovieId] = useState<string>();
@@ -36,6 +40,16 @@ const HomeScreen: NavigationFunctionComponent<NavigationProps> =
       },
       [bottomSheetRef],
     );
+
+    useEffect(() => {
+      getFavoriteMovies()
+        .then(storedMovies => {
+          dispatch(favoritesInitialized(storedMovies));
+        })
+        .catch(() =>
+          console.error('Не удалось получить Избранное из AsyncStorage'),
+        );
+    }, [dispatch]);
 
     return (
       <ScreenWrapper>

@@ -1,7 +1,7 @@
 import {useFetchMovieByIdQuery} from '@api/getMovies';
 import Card from '@components/UI/Card';
 import {Icons} from '@constants/icons';
-import {removedFromFavorites} from '@store/favoritesSlice';
+import {favoriteHandled} from '@store/favoritesSlice';
 import {MEDIUM} from '@styles/spacing';
 import {typography} from '@styles/typography';
 import React, {useCallback} from 'react';
@@ -18,7 +18,7 @@ const FavoriteCard = ({id}: FavoriteCardProps) => {
 
   const removeMovie = useCallback(
     movieId => {
-      dispatch(removedFromFavorites(movieId));
+      dispatch(favoriteHandled(movieId));
     },
     [dispatch],
   );
@@ -27,7 +27,14 @@ const FavoriteCard = ({id}: FavoriteCardProps) => {
     <Card>
       <View style={styles.contentWrapper}>
         <Text style={styles.title}>{data?.title}</Text>
-        <TouchableOpacity onPress={() => removeMovie(id)}>
+        <TouchableOpacity
+          onPress={() => removeMovie(id)}
+          hitSlop={{
+            top: 10,
+            right: 10,
+            bottom: 10,
+            left: 10,
+          }}>
           <Image source={Icons.remove} style={styles.remove} />
         </TouchableOpacity>
       </View>
