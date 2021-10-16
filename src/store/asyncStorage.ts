@@ -14,7 +14,7 @@ export const storeFavoriteMovies = async (value: string[]) => {
 export const getFavoriteMovies = async () => {
   try {
     const jsonValue = await AsyncStorage.getItem(FAVORITES_MOVIES);
-    return jsonValue != null ? JSON.parse(jsonValue) : null;
+    return jsonValue != null ? JSON.parse(jsonValue) : [];
   } catch (e) {
     console.error('Ошибка при получении данных из AsyncStorage');
   }

@@ -46,6 +46,7 @@ Navigation.registerComponent(
   'Home',
   () =>
     gestureHandlerRootHOC(props => (
+      // eslint-disable-next-line prettier/prettier
       <Provider store={store}>
         <HomeScreen {...props} />
       </Provider>
