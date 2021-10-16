@@ -33,8 +33,20 @@
 - Приложение разрабатывалось только под вертикально расположенный смартфон
 
 
+#### Apk файл для скачивания: 
+- https://drive.google.com/file/d/1lriltbBID1H4TdF5d0FuGZTM_NLCIBc2/view?usp=sharing
 
 
+| ![photo_2021-10-16_23-18-24](https://user-images.githubusercontent.com/46939491/137601139-3e8273b1-f548-4ad3-b4ff-d6774d1a8a0d.jpg) | 
+|:--:| 
+| *Главный экран. Список всех фильмов.* |
 
+| ![photo_2021-10-16_23-19-46](https://user-images.githubusercontent.com/46939491/137601161-bb69b516-a048-4afd-8050-25f0a2680d61.jpg) | 
+|:--:| 
+| *Главный экран. Описание выбранного фильма.* |
+
+| ![photo_2021-10-16_23-18-36](https://user-images.githubusercontent.com/46939491/137601142-ec53de71-9a9a-48c1-a8b8-582a40b82f1d.jpg) | 
+|:--:| 
+| *Избранное.* |
 
 
