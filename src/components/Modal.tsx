@@ -1,18 +1,34 @@
-import {HEIGHT} from '@utils/deviceSizes';
-import React, {Ref} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {Movie} from '@api/getMovies';
+import {retry} from '@reduxjs/toolkit/query';
+import {WHITE} from '@styles/colors';
+import {LARGE, MEDIUM, TINY} from '@styles/spacing';
+import {typography} from '@styles/typography';
+import {HEIGHT, WIDTH} from '@utils/deviceSizes';
+import React, {RefObject} from 'react';
+import {Image, StyleSheet, Text, View} from 'react-native';
 import BottomSheet from 'reanimated-bottom-sheet';
 
 type ModalProps = {
-  bottomSheetRef: Ref<BottomSheet>;
+  bottomSheetRef: RefObject<BottomSheet>;
+  currentMovie?: Movie;
 };
 
-const Modal = ({bottomSheetRef}: ModalProps) => {
-  const renderContent = () => (
-    <View style={styles.container}>
-      <Text>Swipe down to close</Text>
-    </View>
-  );
+const Modal = ({bottomSheetRef, currentMovie}: ModalProps) => {
+  console.log('currentMovie', currentMovie);
+
+  const renderContent = () => {
+    if (!currentMovie) {
+      return;
+    }
+    return (
+      <View style={styles.container}>
+        <Image style={styles.image} source={{uri: currentMovie.image}} />
+        <View style={styles.content}>
+          <Text style={styles.description}>{currentMovie.description}</Text>
+        </View>
+      </View>
+    );
+  };
 
   return (
     <>
@@ -29,9 +45,19 @@ const Modal = ({bottomSheetRef}: ModalProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#ccc',
-    padding: 16,
+    backgroundColor: '#F5F5F5',
     height: HEIGHT,
+  },
+  image: {
+    height: 300,
+    width: WIDTH,
+    resizeMode: 'cover',
+  },
+  content: {},
+  description: {
+    ...typography.normalText,
+    padding: MEDIUM,
+    textAlign: 'justify',
   },
 });
 

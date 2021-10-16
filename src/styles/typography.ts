@@ -8,6 +8,6 @@ export const typography = StyleSheet.create({
     fontSize: 18,
   },
   normalText: {
-    fontSize: 15,
+    fontSize: 16,
   },
 });

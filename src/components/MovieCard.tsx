@@ -7,26 +7,25 @@ import React from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 type MovieCardProps = {
-  onCardPress: () => void;
+  id: string;
+  onCardPress: (id: string) => void;
   title: string;
   banner: string;
-  description: string;
   release_date: number;
   score: number;
 };
 
 const MovieCard = ({
+  id,
   onCardPress,
   title,
   banner,
-  description,
   release_date,
   score,
 }: MovieCardProps) => {
-  console.log('score', score);
   return (
     <TouchableOpacity
-      onPress={onCardPress}
+      onPress={() => onCardPress(id)}
       activeOpacity={0.5}
       style={styles.card}>
       <View>
@@ -79,7 +78,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   textsWrapper: {
-    marginTop: TINY,
+    marginTop: TINY - 2,
   },
   text: {
     ...typography.normalText,

@@ -1,4 +1,4 @@
-import {useFetchMoviesQuery} from '@api/getMovies';
+import {Movie, useFetchMoviesQuery} from '@api/getMovies';
 import Modal from '@components/Modal';
 import MovieCard from '@components/MovieCard';
 import ErrorMessage from '@components/UI/ErrorMessage';
@@ -24,18 +24,24 @@ const HomeScreen: NavigationFunctionComponent<NavigationProps> =
   ({}: HomeScreenProps) => {
     const bottomSheetRef = React.createRef<BottomSheet>();
 
-    const onCardPress = () => {
-      bottomSheetRef.current?.snapTo(0);
-    };
-
     const REQUEST_STEP = 10;
 
-    const [limit, setLimit] = useState(10);
+    const [limit, setLimit] = useState<number>(10);
+    const [currentMovie, setCurrentMovie] = useState<Movie>();
     const {data = [], isFetching, error} = useFetchMoviesQuery(limit);
 
     const {refreshing, onRefresh} = useRefreshControl(isFetching, () =>
       setLimit(limit),
     );
+
+    const onCardPress = (id: string) => {
+      bottomSheetRef.current?.snapTo(0);
+      const movie = data.find(movieItem => movieItem.id === id);
+      if (!movie) {
+        return;
+      }
+      setCurrentMovie(movie);
+    };
 
     return (
       <ScreenWrapper>
@@ -57,10 +63,10 @@ const HomeScreen: NavigationFunctionComponent<NavigationProps> =
             renderItem={({item}) => (
               <MovieCard
                 key={item.id}
+                id={item.id}
                 onCardPress={onCardPress}
                 title={item.title}
                 banner={item.movie_banner}
-                description={item.description}
                 release_date={item.release_date}
                 score={item.rt_score}
               />
@@ -76,7 +82,10 @@ const HomeScreen: NavigationFunctionComponent<NavigationProps> =
               <ActivityIndicator size="large" color={PRIMARY} />
             </View>
           ) : (
-            <Modal bottomSheetRef={bottomSheetRef} />
+            <Modal
+              bottomSheetRef={bottomSheetRef}
+              currentMovie={currentMovie}
+            />
           )}
         </>
       </ScreenWrapper>
