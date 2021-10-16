@@ -1,11 +1,20 @@
 import {useFetchMoviesQuery} from '@api/getMovies';
 import Modal from '@components/Modal';
 import MovieCard from '@components/MovieCard';
+import ErrorMessage from '@components/UI/ErrorMessage';
+import {useRefreshControl} from '@hooks/useRefreshControl';
 import ScreenWrapper from '@layouts/ScreenWrapper';
 import {NavigationProps} from '@screens/FavoritesScreen/FavoritesScreen';
-import {MEDIUM, SMALL} from '@styles/spacing';
+import {PRIMARY} from '@styles/colors';
+import {LARGE, MEDIUM, SMALL} from '@styles/spacing';
 import React, {useState} from 'react';
-import {FlatList, StyleSheet, Text, View} from 'react-native';
+import {
+  ActivityIndicator,
+  FlatList,
+  RefreshControl,
+  StyleSheet,
+  View,
+} from 'react-native';
 import {NavigationFunctionComponent} from 'react-native-navigation';
 import BottomSheet from 'reanimated-bottom-sheet';
 
@@ -20,15 +29,30 @@ const HomeScreen: NavigationFunctionComponent<NavigationProps> =
     };
 
     const LIMIT_STEP = 10;
-    const [limit, setLimit] = useState(10);
-    const {data = [], isFetching} = useFetchMoviesQuery(limit);
 
-    console.log('data', data);
+    const [limit, setLimit] = useState(10);
+    const {data = [], isFetching, error} = useFetchMoviesQuery(limit);
+
+    const {refreshing, onRefresh} = useRefreshControl(isFetching, () =>
+      setLimit(limit),
+    );
 
     return (
       <ScreenWrapper>
         <>
+          {error && (
+            <ErrorMessage
+              text={`Произошла ошибка при получении данных: ${error}`}
+            />
+          )}
           <FlatList
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+                colors={[PRIMARY]}
+              />
+            }
             data={data}
             renderItem={({item}) => (
               <MovieCard
@@ -46,15 +70,14 @@ const HomeScreen: NavigationFunctionComponent<NavigationProps> =
             onEndReachedThreshold={1}
             onEndReached={() => setLimit(limit + LIMIT_STEP)}
           />
-          <View>
-            <Text>Number: {data.length}</Text>
-          </View>
-          {isFetching && (
+
+          {isFetching ? (
             <View>
-              <Text>Loading...</Text>
+              <ActivityIndicator size="large" color={PRIMARY} />
             </View>
+          ) : (
+            <Modal bottomSheetRef={bottomSheetRef} />
           )}
-          <Modal bottomSheetRef={bottomSheetRef} />
         </>
       </ScreenWrapper>
     );
@@ -64,6 +87,9 @@ const styles = StyleSheet.create({
   contentContainerStyle: {
     marginHorizontal: MEDIUM,
     paddingVertical: SMALL,
+  },
+  loader: {
+    marginTop: LARGE,
   },
 });
 

@@ -15,7 +15,6 @@ export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://ghibliapi.herokuapp.com',
     prepareHeaders(headers) {
-      // headers.set('x-api-key', KEY);
       return headers;
     },
   }),

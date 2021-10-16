@@ -23,7 +23,8 @@
           "@json": "./src/json",
           "@database": "./src/database",
           "@routes": "./src/routes",
-          "@configs": "./src/configs"
+          "@configs": "./src/configs",
+          "@hooks": "./src/hooks"
         }
       }
     ]

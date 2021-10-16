@@ -18,9 +18,10 @@ const Modal = ({bottomSheetRef}: ModalProps) => {
     <>
       <BottomSheet
         ref={bottomSheetRef}
-        snapPoints={[HEIGHT - 200, HEIGHT / 2, 0]}
+        snapPoints={['80%', '50%', '0%']}
         borderRadius={10}
         renderContent={renderContent}
+        initialSnap={2}
       />
     </>
   );
