@@ -7,7 +7,7 @@ export type Movie = {
   movie_banner: string;
   description: string;
   release_date: number;
-  score: number;
+  rt_score: number;
 };
 
 export const apiSlice = createApi({

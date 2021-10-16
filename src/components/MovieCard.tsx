@@ -1,6 +1,7 @@
 import Button from '@components/UI/Button';
 import {PRIMARY, PRIMARY_PALE, WHITE} from '@styles/colors';
 import {LARGE, MEDIUM, TINY} from '@styles/spacing';
+import {typography} from '@styles/typography';
 import {WIDTH} from '@utils/deviceSizes';
 import React from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
@@ -22,15 +23,19 @@ const MovieCard = ({
   release_date,
   score,
 }: MovieCardProps) => {
+  console.log('score', score);
   return (
     <TouchableOpacity
       onPress={onCardPress}
       activeOpacity={0.5}
       style={styles.card}>
       <View>
-        <Text>{title}</Text>
-        <Text>{release_date}</Text>
-        <Text>{score}</Text>
+        <Text style={styles.title}>{title}</Text>
+
+        <View style={styles.textsWrapper}>
+          <Text style={styles.text}>Год выпуска: {release_date}</Text>
+          <Text style={styles.text}>Рейтинг пользователей: {score}</Text>
+        </View>
 
         <Image
           style={styles.image}
@@ -39,7 +44,7 @@ const MovieCard = ({
           }}
         />
 
-        <Text>{description}</Text>
+        {/*<Text>{description}</Text>*/}
       </View>
 
       <Button
@@ -69,10 +74,21 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
   },
+  title: {
+    ...typography.mediumTitle,
+    fontWeight: '600',
+  },
+  textsWrapper: {
+    marginTop: TINY,
+  },
+  text: {
+    ...typography.normalText,
+  },
   image: {
     height: 200,
     width: WIDTH - LARGE * 2,
     borderRadius: TINY,
+    marginTop: MEDIUM - 2,
   },
 });
 

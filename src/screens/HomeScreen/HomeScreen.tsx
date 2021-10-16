@@ -6,7 +6,7 @@ import {useRefreshControl} from '@hooks/useRefreshControl';
 import ScreenWrapper from '@layouts/ScreenWrapper';
 import {NavigationProps} from '@screens/FavoritesScreen/FavoritesScreen';
 import {PRIMARY} from '@styles/colors';
-import {LARGE, MEDIUM, SMALL} from '@styles/spacing';
+import {GIANT, MEDIUM, SMALL} from '@styles/spacing';
 import React, {useState} from 'react';
 import {
   ActivityIndicator,
@@ -28,7 +28,7 @@ const HomeScreen: NavigationFunctionComponent<NavigationProps> =
       bottomSheetRef.current?.snapTo(0);
     };
 
-    const LIMIT_STEP = 10;
+    const REQUEST_STEP = 10;
 
     const [limit, setLimit] = useState(10);
     const {data = [], isFetching, error} = useFetchMoviesQuery(limit);
@@ -62,13 +62,13 @@ const HomeScreen: NavigationFunctionComponent<NavigationProps> =
                 banner={item.movie_banner}
                 description={item.description}
                 release_date={item.release_date}
-                score={item.score}
+                score={item.rt_score}
               />
             )}
             keyExtractor={item => item.id}
             contentContainerStyle={styles.contentContainerStyle}
             onEndReachedThreshold={1}
-            onEndReached={() => setLimit(limit + LIMIT_STEP)}
+            onEndReached={() => setLimit(limit + REQUEST_STEP)}
           />
 
           {isFetching ? (
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     paddingVertical: SMALL,
   },
   loader: {
-    marginTop: LARGE,
+    marginTop: GIANT,
   },
 });
 
