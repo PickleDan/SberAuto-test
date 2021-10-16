@@ -84,7 +84,8 @@ const HomeScreen: NavigationFunctionComponent<NavigationProps> =
           ) : (
             <Modal
               bottomSheetRef={bottomSheetRef}
-              currentMovie={currentMovie}
+              description={currentMovie?.description}
+              image={currentMovie?.image}
             />
           )}
         </>
