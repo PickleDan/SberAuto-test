@@ -1,23 +1,13 @@
-import {MEDIUM} from '@styles/spacing';
 import React, {ReactChild, ReactChildren} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {View, ViewStyle} from 'react-native';
 
 type ScreenWrapperProps = {
   children: ReactChild | ReactChildren;
-  horizontalInsets?: boolean;
+  stylesProps?: ViewStyle;
 };
 
-const ScreenWrapper = ({
-  children,
-  horizontalInsets = false,
-}: ScreenWrapperProps) => {
-  return <View style={horizontalInsets && styles.wrapper}>{children}</View>;
+const ScreenWrapper = ({children, stylesProps}: ScreenWrapperProps) => {
+  return <View style={[stylesProps]}>{children}</View>;
 };
-
-const styles = StyleSheet.create({
-  wrapper: {
-    paddingHorizontal: MEDIUM,
-  },
-});
 
 export default ScreenWrapper;

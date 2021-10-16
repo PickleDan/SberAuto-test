@@ -21,6 +21,8 @@ import {NavigationFunctionComponent} from 'react-native-navigation';
 import {shallowEqual} from 'react-redux';
 import BottomSheet from 'reanimated-bottom-sheet';
 
+const REQUEST_STEP = 10;
+
 type HomeScreenProps = {};
 
 const HomeScreen: NavigationFunctionComponent<NavigationProps> =
@@ -28,8 +30,6 @@ const HomeScreen: NavigationFunctionComponent<NavigationProps> =
     const bottomSheetRef = React.createRef<BottomSheet>();
     const dispatch = useAppDispatch();
     const favorites = useAppSelector(state => state.favorites, shallowEqual);
-
-    const REQUEST_STEP = 10;
 
     const [limit, setLimit] = useState<number>(10);
     const [currentMovie, setCurrentMovie] = useState<Movie>();

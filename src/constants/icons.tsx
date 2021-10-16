@@ -5,4 +5,5 @@ export const Icons = {
   favoritesTabOff: require('@assets/tabs/favorite_off.png'),
 
   star: require('@assets/star.png'),
+  remove: require('@assets/remove.png'),
 };

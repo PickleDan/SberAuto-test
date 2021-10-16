@@ -25,8 +25,11 @@ export const apiSlice = createApi({
           return `/films?limit=${limit}`;
         },
       }),
+      fetchMovieById: builder.query<Movie, string | void>({
+        query: movieId => `/films/${movieId}`,
+      }),
     };
   },
 });
 
-export const {useFetchMoviesQuery} = apiSlice;
+export const {useFetchMoviesQuery, useFetchMovieByIdQuery} = apiSlice;
