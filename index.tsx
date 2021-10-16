@@ -32,7 +32,7 @@ HomeScreen.options = {
   },
   topBar: {
     title: {
-      text: 'Фильмы',
+      text: 'Фильмы студии “Ghibli”',
     },
   },
   bottomTab: {
