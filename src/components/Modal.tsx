@@ -106,4 +106,4 @@ const styles = StyleSheet.create({
   descriptionOn: {height: 'auto'},
 });
 
-export default Modal;
+export default React.memo(Modal);

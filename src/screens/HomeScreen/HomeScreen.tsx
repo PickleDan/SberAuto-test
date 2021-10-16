@@ -7,7 +7,7 @@ import ScreenWrapper from '@layouts/ScreenWrapper';
 import {NavigationProps} from '@screens/FavoritesScreen/FavoritesScreen';
 import {PRIMARY} from '@styles/colors';
 import {GIANT, MEDIUM, SMALL} from '@styles/spacing';
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -34,14 +34,17 @@ const HomeScreen: NavigationFunctionComponent<NavigationProps> =
       setLimit(limit),
     );
 
-    const onCardPress = (id: string) => {
-      bottomSheetRef.current?.snapTo(0);
-      const movie = data.find(movieItem => movieItem.id === id);
-      if (!movie) {
-        return;
-      }
-      setCurrentMovie(movie);
-    };
+    const onCardPress = useCallback(
+      (id: string) => {
+        bottomSheetRef.current?.snapTo(0);
+        const movie = data.find(movieItem => movieItem.id === id);
+        if (!movie) {
+          return;
+        }
+        setCurrentMovie(movie);
+      },
+      [bottomSheetRef, data],
+    );
 
     return (
       <ScreenWrapper>

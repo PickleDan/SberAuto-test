@@ -22,4 +22,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ErrorMessage;
+export default React.memo(ErrorMessage);
