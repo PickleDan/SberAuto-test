@@ -30,6 +30,7 @@ const FavoritesScreen: NavigationFunctionComponent<NavigationProps> =
             data={movieIds}
             renderItem={({item}) => <FavoriteCard id={item} />}
             contentContainerStyle={styles.contentContainerStyle}
+            keyExtractor={item => item}
           />
         )}
       </ScreenWrapper>

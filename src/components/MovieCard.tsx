@@ -8,14 +8,11 @@ import {Image, StyleSheet, Text, View} from 'react-native';
 
 type MovieCardProps = {
   id: string;
-
   title: string;
   banner: string;
   release_date: number;
   score: number;
   onCardPress: (id: string) => void;
-  // onFavoritePress: (id: string) => void;
-  // checkIsMovieFavorite: (id: string) => boolean;
 };
 
 const MovieCard = ({
