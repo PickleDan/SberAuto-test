@@ -10,7 +10,7 @@ import BottomSheet from 'reanimated-bottom-sheet';
 
 type ModalProps = {
   bottomSheetRef: React.MutableRefObject<BottomSheet | null>;
-  movieId?: string;
+  movieId: string;
 };
 
 const LINE_HEIGHT = 20;
@@ -27,6 +27,9 @@ const Modal = ({bottomSheetRef, movieId}: ModalProps) => {
     useState<boolean>(false);
 
   const isExpanderNeeded = descriptionHeight > PREVIEW_HEIGHT;
+  const clearExpander = () => {
+    setIsFullDescriptionOpen(false);
+  };
 
   const renderContent = () => {
     return (
@@ -78,6 +81,7 @@ const Modal = ({bottomSheetRef, movieId}: ModalProps) => {
         borderRadius={10}
         renderContent={renderContent}
         initialSnap={2}
+        onCloseEnd={clearExpander}
       />
     </>
   );

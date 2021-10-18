@@ -10,7 +10,7 @@ import {NavigationProps} from '@screens/FavoritesScreen/FavoritesScreen';
 import {getFavoriteMovies} from '@store/asyncStorage';
 import {favoritesInitialized} from '@store/favoritesSlice';
 import {PRIMARY} from '@styles/colors';
-import {GIANT, MEDIUM, SMALL} from '@styles/spacing';
+import {MEDIUM, SMALL} from '@styles/spacing';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {FlatList, RefreshControl, StyleSheet} from 'react-native';
 import {NavigationFunctionComponent} from 'react-native-navigation';
@@ -27,10 +27,16 @@ const HomeScreen: NavigationFunctionComponent<NavigationProps> =
 
     const [limit, setLimit] = useState<number>(REQUEST_STEP);
     const [currentMovieId, setCurrentMovieId] = useState<string>();
-    const {data = [], isFetching, error} = useFetchMoviesQuery(limit);
+    const {
+      data = [],
+      isFetching,
+      isLoading,
+      error,
+      refetch,
+    } = useFetchMoviesQuery(limit);
 
     const {refreshing, onRefresh} = useRefreshControl(isFetching, () =>
-      setLimit(limit),
+      refetch(),
     );
 
     const onCardPress = useCallback(
@@ -54,11 +60,14 @@ const HomeScreen: NavigationFunctionComponent<NavigationProps> =
     return (
       <ScreenWrapper>
         <>
+          {isLoading && <Loader size={40} stylesProp={styles.loader} />}
+
           {error && (
             <ErrorMessage
               text={`Произошла ошибка при получении данных: ${error}`}
             />
           )}
+
           <FlatList
             refreshControl={
               <RefreshControl
@@ -84,10 +93,7 @@ const HomeScreen: NavigationFunctionComponent<NavigationProps> =
             onEndReachedThreshold={1}
             onEndReached={() => setLimit(limit + REQUEST_STEP)}
           />
-
-          {isFetching ? (
-            <Loader />
-          ) : (
+          {currentMovieId && (
             <Modal bottomSheetRef={bottomSheetRef} movieId={currentMovieId} />
           )}
         </>
@@ -101,7 +107,8 @@ const styles = StyleSheet.create({
     paddingVertical: SMALL,
   },
   loader: {
-    marginTop: GIANT,
+    height: '100%',
+    justifyContent: 'center',
   },
 });
 
